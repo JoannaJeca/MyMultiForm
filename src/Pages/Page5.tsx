@@ -5,12 +5,17 @@ import {BiPen} from 'react-icons/bi'
 import {LuMailOpen} from 'react-icons/lu'
 // import {AiOutlineTag} from 'react-icons/ai'
 import {MdOutlineContactSupport} from 'react-icons/md'
-import {useState} from 'react'
+import { useState } from 'react'
 
 
 const Page5 = () => {
     const x = JSON.parse(localStorage.getItem("page")!)
     console.log("state", x);
+
+    const getter = JSON.parse(localStorage.getItem("data")!)
+
+    const [email, setEmail] = useState<string>(getter?.email)
+    const [password, setPassword] = useState<string>(getter?.password)
     
   return (
     <div>
@@ -84,12 +89,24 @@ const Page5 = () => {
                 <br/>
                 <InputHold>
                 <Label>Input your email address</Label>
-                <Input type="email" id="name"/>
+                <Input 
+                type="email" 
+                id="email"
+                value={email}
+                onChange={(e:any)=>{
+                    setEmail(e.target.value)
+                }}/>
                 </InputHold>
 
                 <InputHold>
                 <Label>Password</Label>
-                <Input type={'password'} id="pwd"/>
+                <Input 
+                type={'password'}
+                id="pwd"
+                value={password}
+                onChange={(e:any)=>{
+                    setPassword(e.target.value)
+                }}/>
                 </InputHold>
                 <div style={{display:"flex", justifyContent:"flex-end", width:"85%"}}>
                 <Button cl="" bcc="white"
@@ -99,7 +116,14 @@ const Page5 = () => {
                 }}
                 >Back</Button>
                 <Button cl="true" bcc="#06da06cd"
-               
+                onClick={()=>{
+                    let obj:object = {
+                        firstName: getter?.firstName, lastName: getter?.lastName, number:getter?.num, Address: getter?.address, value:getter?.value, val:getter?.val, Avatar:getter?.avatar, Description:getter?.desc,
+                        email, password
+                    }
+
+                    localStorage.setItem("data", JSON.stringify(obj))
+                }}
                 >Complete submission</Button>
 
                 </div>
@@ -141,7 +165,7 @@ height:420px;
 display: flex;
 flex-direction: column;
 justify-content: space-around;
-right:704px;
+right:706px;
 top:20px;
 `
 

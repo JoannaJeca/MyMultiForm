@@ -5,10 +5,14 @@ import {BiPen} from 'react-icons/bi'
 import {LuMailOpen} from 'react-icons/lu'
 // import {AiOutlineTag} from 'react-icons/ai'
 import {MdOutlineContactSupport} from 'react-icons/md'
+import { useState } from 'react'
 
 
 
 const Page1 = () => {
+    const getter = JSON.parse(localStorage.getItem("data")!)
+    const [firstName, setFirstName] = useState<string> (getter?.firstName)
+    const [lastName, setLastName] = useState<string> (getter?.lastName)
   return (
     <div>
         <Container>
@@ -81,19 +85,34 @@ const Page1 = () => {
                 <br/>
                 <InputHold>
                 <Label>Enter your first name</Label>
-                <Input id="name"/>
+                <Input 
+                value={firstName}
+                id="name"
+                onChange={(e:any)=>{
+                    setFirstName(e.target.value)
+                }}/>
                 </InputHold>
 
                 <InputHold>
                 <Label>Enter your last name</Label>
-                <Input id="name"/>
+                <Input 
+                value={lastName}
+                id="name"
+                onChange={(e:any)=>{
+                    setLastName(e.target.value)
+                }}/>
                 </InputHold>
                 <div style={{display:"flex", justifyContent:"flex-end", width:"85%"}}
-                
+                 
             >
                 <Button 
                 onClick={()=>{
                     localStorage.setItem("page", JSON.stringify(2))
+                    
+                    const anObj:any = {
+                        firstName, lastName
+                    }
+                    localStorage.setItem("data", JSON.stringify(anObj))
                     window.location.reload()
                 }}
                 >Next step</Button>
@@ -136,7 +155,7 @@ height:420px;
 display: flex;
 flex-direction: column;
 justify-content: space-around;
-right:704.5px;
+right:706px;
 top:20px;
 `
 

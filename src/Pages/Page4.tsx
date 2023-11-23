@@ -13,6 +13,10 @@ const Page4 = () => {
 const [image, setImage] = useState<string>("")
 const [avatar, setAvatar] = useState<string>(pix)
 
+
+const getter = JSON.parse(localStorage.getItem("data")!)
+const [desc, setDesc] = useState<string>(getter?.desc)
+
 const onHandleImage = (e:any) =>{
     const file =  e.target.files![0]
     const readyImage = URL.createObjectURL(file)
@@ -96,6 +100,7 @@ const onHandleImage = (e:any) =>{
                  type="file"
                  id="any"
                  onChange={onHandleImage}
+                 
                  style={{display:"none"}}/>
                  <Label htmlFor="any">
                 <FillCamera/>
@@ -103,7 +108,11 @@ const onHandleImage = (e:any) =>{
                 </div>
                 <InputHold>
                 <Labell>Description</Labell>
-                <Input placeholder="Type here your message"/>
+                <Input placeholder="Type here your message"
+                value={desc}
+                onChange={(e:any)=>{
+                    setDesc(e.target.value)
+                }}/>
                 </InputHold>
 
                
@@ -118,6 +127,12 @@ const onHandleImage = (e:any) =>{
                 onClick={()=>{
                     localStorage.setItem("page", JSON.stringify(5))
                     window.location.reload()
+
+
+                    let obj:object = {
+                        firstName: getter?.firstName, lastName: getter?.lastName, number:getter?.num, Address: getter?.address, value:getter?.value, val:getter?.val, desc, avatar
+                    }
+                    localStorage.setItem("data", JSON.stringify(obj))
                 }}
                 >Next step</Button>
 
@@ -199,7 +214,7 @@ height:420px;
 display: flex;
 flex-direction: column;
 justify-content: space-around;
-right:704.5px;
+right:706px;
 top:20px;
 `
 
@@ -215,7 +230,7 @@ const Labell = styled.div`
 font-size:13.5px;
 margin-bottom:5px;`
 
-const Input = styled.textarea`
+const Input = styled.input`
 width:99%;
 height: 75px;
 outline:1px solid green;

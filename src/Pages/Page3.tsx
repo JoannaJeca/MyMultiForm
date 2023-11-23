@@ -3,12 +3,15 @@ import {GoPerson} from 'react-icons/go'
 import {BsBook} from 'react-icons/bs'
 import {BiPen} from 'react-icons/bi'
 import {LuMailOpen} from 'react-icons/lu'
-// import {AiOutlineTag} from 'react-icons/ai'
+import {useState} from 'react'
 import {MdOutlineContactSupport} from 'react-icons/md'
 
 
 
 const Page3 = () => {
+    const getter = JSON.parse(localStorage.getItem("data")!)
+    const [value, setValue] = useState<string>(getter?.value)
+    const [val, setVal] = useState<string>(getter?.val)
   return (
     <div>
         <Container>
@@ -81,12 +84,22 @@ const Page3 = () => {
                 <br/>
                 <InputHold>
                 <Label>Enter your first name</Label>
-                <Input id="name"/>
+                <Input
+                id="name"
+                value={val}
+                onChange={(e:any)=>{
+                    setVal(e.target.value)
+                }}/>
                 </InputHold>
 
                 <InputHold>
                 <Label>Enter your last name</Label>
-                <Input id="name"/>
+                <Input 
+                id="name"
+                value={value}
+                onChange={(e:any)=>{
+                    setValue(e.target.value)
+                }}/>
                 </InputHold>
                 <div style={{display:"flex", justifyContent:"flex-end", width:"85%"}}>
                 <Button cl="" bcc="white"
@@ -99,6 +112,12 @@ const Page3 = () => {
                 onClick={()=>{
                     localStorage.setItem("page", JSON.stringify(4))
                     window.location.reload()
+
+                    let obj:object = {
+                        firstName: getter?.firstName, lastName: getter?.lastName, number: getter?.num, address: getter?.address, value, val
+                    }
+
+                    localStorage.setItem("data", JSON.stringify(obj))
                 }}
                 >Next step</Button>
 
@@ -141,7 +160,7 @@ height:420px;
 display: flex;
 flex-direction: column;
 justify-content: space-around;
-right:704.5px;
+right:706px;
 top:20px;
 `
 

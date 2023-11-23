@@ -2,11 +2,18 @@ import styled from 'styled-components'
 import {GoPerson} from 'react-icons/go'
 import {BsBook} from 'react-icons/bs'
 import {BiPen} from 'react-icons/bi'
+import {useState} from 'react'
 import {LuMailOpen} from 'react-icons/lu'
 import {MdOutlineContactSupport} from 'react-icons/md'
 
 
 const Page5 = () => {
+    const getter = JSON.parse(localStorage.getItem("data")!)
+    console.log("getter", getter);
+    
+
+    const [num, setNum] = useState<string>(getter.num)
+    const [address, setAddress] = useState<string>(getter.address)
   return (
     <div>
         <Container>
@@ -79,12 +86,21 @@ const Page5 = () => {
                 <br/>
                 <InputHold>
                 <Label>Phone number</Label>
-                <Input type="number" id="name"/>
+                <Input type="number" 
+                value={num}
+                onChange={(e:any)=>{
+                    setNum(e.target.value)
+                }}/>
                 </InputHold>
 
                 <InputHold>
                 <Label>Address</Label>
-                <Input placeholder='Home or Company.' id="pwd"/>
+                <Input 
+                value={address}
+                onChange={(e:any)=>{
+                    setAddress(e.target.value)
+                }}
+                placeholder='Home or Company.' />
                 </InputHold>
                 <div style={{display:"flex", justifyContent:"flex-end", width:"85%"}}>
                 <Button cl="" bcc="white"
@@ -96,6 +112,11 @@ const Page5 = () => {
                 <Button cl="true" bcc="#06da06cd"
                 onClick={()=>{
                     localStorage.setItem("page", JSON.stringify(3))
+
+                    const obj ={
+                        firstName: getter?.firstName, lastName: getter?.lastName, num, address
+                    }
+                    localStorage.setItem("data", JSON.stringify(obj))
                     window.location.reload()
                 }}
                 >Next step</Button>
@@ -139,7 +160,7 @@ height:420px;
 display: flex;
 flex-direction: column;
 justify-content: space-around;
-right:704.5px;
+right:706px;
 top:20px;
 `
 
